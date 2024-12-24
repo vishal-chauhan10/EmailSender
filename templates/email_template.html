@@ -2,30 +2,11 @@
 <html>
 <head>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .header {
-            background-color: #f8f9fa;
-            padding: 20px;
-            text-align: center;
-        }
-        .content {
-            padding: 20px;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #666;
-        }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
+        .content { padding: 20px; }
+        .footer { text-align: center; padding: 20px; font-size: 12px; color: #666; }
     </style>
 </head>
 <body>
@@ -35,27 +16,20 @@
         </div>
         <div class="content">
             <p>Dear {recipient_name},</p>
-            
             <p>{main_content}</p>
-            
             <p>Tournament Details:</p>
             <ul>
                 <li>Date: {tournament_date}</li>
                 <li>Venue: {tournament_venue}</li>
                 <li>Expected Teams: {num_teams}</li>
             </ul>
-            
             <p>Sponsorship Packages:</p>
             <ul>
                 <li>Gold Sponsor: {gold_package}</li>
                 <li>Silver Sponsor: {silver_package}</li>
                 <li>Bronze Sponsor: {bronze_package}</li>
             </ul>
-            
-            <p>Best Regards,<br>
-            {sender_name}<br>
-            {sender_position}<br>
-            {contact_info}</p>
+            <p>Best Regards,<br>{sender_name}<br>{sender_position}<br>{contact_info}</p>
         </div>
         <div class="footer">
             <p>{footer_text}</p>

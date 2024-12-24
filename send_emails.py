@@ -16,22 +16,29 @@ smtp_password = 'ntvu skod dibv cabm'
 def read_template(template_path):
     """Read the template file"""
     with open(template_path, 'r', encoding='utf-8') as file:
-        return file.read()
+        return file.read().strip()  # Add strip() to remove extra whitespace
 
 def fill_template(template, **kwargs):
     """Fill the template with provided values"""
-    # Default values
-    defaults = {
-        'title': 'Cricket Tournament Sponsorship',
-        'main_content': 'We are excited to invite you to sponsor our upcoming cricket tournament. Your support would mean a lot to us!',
-        'footer_text': '© 2024 Cricket Tournament. All rights reserved.',
-    }
-    
-    # Update defaults with provided values
-    defaults.update(kwargs)
-    
-    # Fill template
-    return template.format(**defaults)
+    try:
+        # Default values
+        defaults = {
+            'title': 'Cricket Tournament Sponsorship',
+            'main_content': 'We are excited to invite you to sponsor our upcoming cricket tournament. Your support would mean a lot to us!',
+            'footer_text': '© 2024 Cricket Tournament. All rights reserved.',
+        }
+        
+        # Update defaults with provided values
+        defaults.update(kwargs)
+        
+        # Fill template
+        return template.format(**defaults)
+    except KeyError as e:
+        print(f"Missing template variable: {e}")
+        raise
+    except Exception as e:
+        print(f"Error filling template: {e}")
+        raise
 
 def attach_file(msg, filepath):
     """Attach a file to the email message"""
@@ -60,6 +67,7 @@ try:
     df = pd.read_csv('emails.csv')
     print("\nCSV file contents:")
     print(df.head())
+    print("\nColumns in DataFrame:", list(df.columns))  # Add this line for debugging
     
     # Verify required columns exist
     required_columns = ['Email', 'Subject']
@@ -79,30 +87,35 @@ try:
         server.login(smtp_user, smtp_password)
         
         for _, row in df.iterrows():
-            # Create message container
-            msg = MIMEMultipart('alternative')
-            msg['Subject'] = row['Subject']
-            msg['From'] = smtp_user
-            msg['To'] = row['Email']
-            
-            # Fill template with row data
-            template_data = {k: v for k, v in row.items() if k not in ['Email', 'Subject', 'Attachments']}
-            html_content = fill_template(template, **template_data)
-            
-            # Attach HTML content
-            msg.attach(MIMEText(html_content, 'html'))
-            
-            # Add attachments if specified
-            if 'Attachments' in row and pd.notna(row['Attachments']):
-                for filepath in row['Attachments'].split(';'):
-                    filepath = filepath.strip()
-                    if os.path.exists(filepath):
-                        attach_file(msg, filepath)
-                    else:
-                        print(f"Warning: Attachment not found: {filepath}")
+            try:
+                # Create message container
+                msg = MIMEMultipart('alternative')
+                msg['Subject'] = row['Subject']
+                msg['From'] = smtp_user
+                msg['To'] = row['Email']
+                
+                # Fill template with row data
+                template_data = row.to_dict()  # Convert row to dictionary
+                html_content = fill_template(template, **template_data)
+                
+                # Attach HTML content
+                msg.attach(MIMEText(html_content, 'html'))
+                
+                # Add attachments if specified
+                if 'Attachments' in row and pd.notna(row['Attachments']):
+                    for filepath in row['Attachments'].split(';'):
+                        filepath = filepath.strip()
+                        if os.path.exists(filepath):
+                            attach_file(msg, filepath)
+                        else:
+                            print(f"Warning: Attachment not found: {filepath}")
 
-            server.sendmail(smtp_user, row['Email'], msg.as_string())
-            print(f"Email sent to: {row['Email']}")
+                server.sendmail(smtp_user, row['Email'], msg.as_string())
+                print(f"Email sent to: {row['Email']}")
+            
+            except Exception as e:
+                print(f"Error sending email to {row['Email']}: {str(e)}")
+                continue
             
         print("All emails have been sent.")
 
