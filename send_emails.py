@@ -1,3 +1,4 @@
+Shreedhar Barot, [24/12/24 7:20 PM]
 import pandas as pd
 import smtplib
 import os
@@ -110,7 +111,7 @@ try:
                         else:
                             print(f"Warning: Attachment not found: {filepath}")
 
-                server.sendmail(smtp_user, row['Email'], msg.as_string())
+server.sendmail(smtp_user, row['Email'], msg.as_string())
                 print(f"Email sent to: {row['Email']}")
             
             except Exception as e:

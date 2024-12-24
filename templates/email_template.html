@@ -2,38 +2,139 @@
 <html>
 <head>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
-        .content { padding: 20px; }
-        .footer { text-align: center; padding: 20px; font-size: 12px; color: #666; }
+        body {{ 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            background-color: #f4f4f9; 
+            margin: 0; 
+            padding: 0; 
+        }}
+        .container {{ 
+            max-width: 600px; 
+            margin: 20px auto; 
+            padding: 20px; 
+            background-color: #ffffff; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        }}
+        .header {{ 
+            background-image: url('https://cdn.britannica.com/63/211663-050-A674D74C/Jonny-Bairstow-batting-semifinal-match-England-Australia-2019.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            position: relative;
+        }}
+        .header::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }}
+        .header h1 {{
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }}
+        .content {{ 
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+        }}
+        .tournament-details, .sponsorship-packages {{
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }}
+        .tournament-details h2, .sponsorship-packages h2 {{
+            color: #007bff;
+            margin-top: 0;
+        }}
+        ul {{
+            list-style-type: none;
+            padding: 0;
+        }}
+        li {{
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }}
+        li:last-child {{
+            border-bottom: none;
+        }}
+        .package {{
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+        }}
+        .gold {{ background: #ffd700; color: #000; }}
+        .silver {{ background: #c0c0c0; color: #000; }}
+        .bronze {{ background: #cd7f32; color: #fff; }}
+        .signature {{
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 2px solid #eee;
+        }}
+        .footer {{ 
+            text-align: center; 
+            padding: 20px; 
+            font-size: 12px; 
+            color: #666; 
+            background-color: #f8f9fa; 
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }}
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>{title}</h1>
+            <h1>Cricket Tournament Sponsorship</h1>
         </div>
         <div class="content">
             <p>Dear {recipient_name},</p>
             <p>{main_content}</p>
-            <p>Tournament Details:</p>
-            <ul>
-                <li>Date: {tournament_date}</li>
-                <li>Venue: {tournament_venue}</li>
-                <li>Expected Teams: {num_teams}</li>
-            </ul>
-            <p>Sponsorship Packages:</p>
-            <ul>
-                <li>Gold Sponsor: {gold_package}</li>
-                <li>Silver Sponsor: {silver_package}</li>
-                <li>Bronze Sponsor: {bronze_package}</li>
-            </ul>
-            <p>Best Regards,<br>{sender_name}<br>{sender_position}<br>{contact_info}</p>
+
+            <div class="tournament-details">
+                <h2>Tournament Details</h2>
+                <ul>
+                    <li>📅 Date: {tournament_date}</li>
+                    <li>📍 Venue: {tournament_venue}</li>
+                    <li>👥 Expected Teams: {num_teams}</li>
+                </ul>
+            </div>
+
+            <div class="sponsorship-packages">
+                <h2>Sponsorship Packages</h2>
+                <ul>
+                    <li><span class="package gold">Gold Sponsor: {gold_package}</span></li>
+                    <li><span class="package silver">Silver Sponsor: {silver_package}</span></li>
+                    <li><span class="package bronze">Bronze Sponsor: {bronze_package}</span></li>
+                </ul>
+            </div>
+
+            <div class="signature">
+                <p>Best Regards,<br>
+                <strong>{sender_name}</strong><br>
+                <em>{sender_position}</em><br>
+                {contact_info}</p>
+            </div>
         </div>
         <div class="footer">
             <p>{footer_text}</p>
         </div>
     </div>
 </body>
-</html> 
+</html>
