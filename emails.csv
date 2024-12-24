@@ -1,8 +1,2 @@
-﻿Email,Subject,Body,Attachments
-61chauhan.vishal@gmail.com,Sponsorship Opportunity for Our Cricket Tournament,"Dear Businessman,
-
-We are excited to invite you to sponsor our upcoming cricket tournament. Your support would mean a lot to us!
-
-Best Regards,
-[Your Name]
-[Your Contact Information]",/path/to/attachment1.pdf;/path/to/attachment2.docx
+﻿Email,Subject,recipient_name,tournament_date,tournament_venue,num_teams,gold_package,silver_package,bronze_package,sender_name,sender_position,contact_info,Attachments
+61chauhan.vishal@gmail.com,Cricket Tournament Sponsorship Opportunity,Mr. Smith,15th May 2024,Central Stadium,16,$5000,$3000,$1000,Vishal Chauhan,Tournament Director,+1 234-567-8900,/path/to/sponsorship_deck.pdf

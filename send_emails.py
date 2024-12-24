@@ -13,19 +13,34 @@ smtp_port = 587
 smtp_user = 'chauhan.vishal4943@gmail.com'
 smtp_password = 'ntvu skod dibv cabm'
 
+def read_template(template_path):
+    """Read the template file"""
+    with open(template_path, 'r', encoding='utf-8') as file:
+        return file.read()
+
+def fill_template(template, **kwargs):
+    """Fill the template with provided values"""
+    # Default values
+    defaults = {
+        'title': 'Cricket Tournament Sponsorship',
+        'main_content': 'We are excited to invite you to sponsor our upcoming cricket tournament. Your support would mean a lot to us!',
+        'footer_text': '© 2024 Cricket Tournament. All rights reserved.',
+    }
+    
+    # Update defaults with provided values
+    defaults.update(kwargs)
+    
+    # Fill template
+    return template.format(**defaults)
+
 def attach_file(msg, filepath):
     """Attach a file to the email message"""
     try:
         with open(filepath, 'rb') as f:
-            # Determine the file type and create appropriate MIME part
             file_name = os.path.basename(filepath)
             part = MIMEBase('application', "octet-stream")
             part.set_payload(f.read())
-            
-            # Encode the attachment
             encoders.encode_base64(part)
-            
-            # Add header
             part.add_header(
                 'Content-Disposition',
                 'attachment',
@@ -38,27 +53,25 @@ def attach_file(msg, filepath):
         return False
 
 try:
-    # Read CSV file with email, subject, body, and attachment paths
+    # Read the email template
+    template = read_template('templates/email_template.html')
+    
+    # Read CSV file
     df = pd.read_csv('emails.csv')
     print("\nCSV file contents:")
     print(df.head())
     
     # Verify required columns exist
-    required_columns = ['Email', 'Subject', 'Body']
+    required_columns = ['Email', 'Subject']
     if not all(col in df.columns for col in required_columns):
         raise Exception(f"CSV must contain these columns: {required_columns}")
     
     # Clean the email addresses
     df['Email'] = df['Email'].astype(str).str.strip()
-    
-    # Remove any rows with invalid emails
     df = df[df['Email'].str.contains('@')]
     
     if len(df) == 0:
         raise Exception("No valid email addresses found in the file")
-    
-    print("\nValid emails found:")
-    print(df['Email'].tolist())
     
     # Send emails
     with smtplib.SMTP(smtp_server, smtp_port) as server:
@@ -67,19 +80,21 @@ try:
         
         for _, row in df.iterrows():
             # Create message container
-            msg = MIMEMultipart()
+            msg = MIMEMultipart('alternative')
             msg['Subject'] = row['Subject']
             msg['From'] = smtp_user
             msg['To'] = row['Email']
             
-            # Add body
-            msg.attach(MIMEText(row['Body'], 'plain'))
+            # Fill template with row data
+            template_data = {k: v for k, v in row.items() if k not in ['Email', 'Subject', 'Attachments']}
+            html_content = fill_template(template, **template_data)
+            
+            # Attach HTML content
+            msg.attach(MIMEText(html_content, 'html'))
             
             # Add attachments if specified
             if 'Attachments' in row and pd.notna(row['Attachments']):
-                # Handle multiple attachments separated by semicolons
-                attachment_paths = row['Attachments'].split(';')
-                for filepath in attachment_paths:
+                for filepath in row['Attachments'].split(';'):
                     filepath = filepath.strip()
                     if os.path.exists(filepath):
                         attach_file(msg, filepath)
