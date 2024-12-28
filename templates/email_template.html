@@ -1,129 +1,570 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {{ 
+        body { 
             font-family: Arial, sans-serif; 
             line-height: 1.6; 
             color: #333; 
-            background-color: #f4f4f9; 
+            background: linear-gradient(135deg, #001747 0%, #002a7a 100%);
             margin: 0; 
-            padding: 0; 
-        }}
-        .container {{ 
-            max-width: 600px; 
-            margin: 20px auto; 
             padding: 20px; 
-            background-color: #ffffff; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-        }}
-        .header {{ 
-            background-image: url('https://cdn.britannica.com/63/211663-050-A674D74C/Jonny-Bairstow-batting-semifinal-match-England-Australia-2019.jpg');
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+            overflow: hidden;
+        }
+        .header { 
+            background: linear-gradient(rgba(0,23,71,0.95), rgba(0,23,71,0.95)), url('https://i.imgur.com/xPhIXLu.png');
             background-size: cover;
             background-position: center;
-            color: #ffffff;
-            padding: 60px 20px;
+            padding: 40px 20px;
             text-align: center;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            position: relative;
-        }}
-        .header::before {{
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }}
-        .header h1 {{
-            position: relative;
-            z-index: 1;
-            margin: 0;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }}
-        .content {{ 
+            border-bottom: 4px solid #ffd700;
+        }
+        .content {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             padding: 30px;
-            background: rgba(255, 255, 255, 0.95);
-        }}
-        .tournament-details, .sponsorship-packages {{
-            background: #f8f9fa;
+        }
+        .stats-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 30px 0;
+        }
+        .stat-box {
+            background: linear-gradient(145deg, #001747, #002a7a);
+            border: 2px solid #ffd700;
+            padding: 20px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .media-coverage {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .news-links a {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .news-links a:hover {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-color: #001747;
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        .sponsorship-packages {
+            background: linear-gradient(135deg, #001747 0%, #002a7a 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            color: white;
+        }
+        .sponsorship-packages h2 {
+            color: #ffd700;
+            text-align: center;
+            font-size: 2em;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .package {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gold {
+            background: linear-gradient(145deg, #ffd700, #ffed4a);
+            border: 2px solid #ffd700;
+        }
+        .silver {
+            background: linear-gradient(145deg, #c0c0c0, #e6e6e6);
+            border: 2px solid #c0c0c0;
+        }
+        .bronze {
+            background: linear-gradient(145deg, #cd7f32, #dda15e);
+            border: 2px solid #cd7f32;
+        }
+        .cta-button {
+            background: linear-gradient(145deg, #ffd700, #ffed4a);
+            padding: 18px 35px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            border: 2px solid #ffd700;
+        }
+        .signature {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             padding: 20px;
             border-radius: 8px;
-            margin: 20px 0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }}
-        .tournament-details h2, .sponsorship-packages h2 {{
-            color: #007bff;
-            margin-top: 0;
-        }}
-        ul {{
-            list-style-type: none;
-            padding: 0;
-        }}
-        li {{
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }}
-        li:last-child {{
-            border-bottom: none;
-        }}
-        .package {{
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-weight: bold;
-        }}
-        .gold {{ background: #ffd700; color: #000; }}
-        .silver {{ background: #c0c0c0; color: #000; }}
-        .bronze {{ background: #cd7f32; color: #fff; }}
-        .signature {{
             margin-top: 30px;
+            border: 1px solid #e9ecef;
+        }
+        .footer {
+            background: linear-gradient(145deg, #001747, #002a7a);
+            padding: 30px 20px;
+            border-top: 4px solid #ffd700;
+        }
+        .footer-logo {
+            width: 100px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        .tagline {
+            background: -webkit-linear-gradient(#ffd700, #ffed4a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        .icon {
+            color: #001747;
+            background: #ffd700;
+            padding: 5px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+        h2 {
+            color: #001747;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        .title {
+            font-size: 2.8em;
+            font-weight: 800;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin: 0;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            font-size: 1.4em;
+            color: #ffffff;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 5px 0;
+        }
+        .stat-label {
+            color: #ffffff;
+            font-size: 0.9em;
+        }
+        .media-title {
+            color: #001747;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+        }
+        .news-links a {
+            color: #001747;
+            text-decoration: none;
+            display: block;
+        }
+        .package {
+            color: #001747;
+            font-weight: bold;
+            text-align: center;
+        }
+        .gold {
+            color: #000000;
+        }
+        .silver {
+            color: #000000;
+        }
+        .bronze {
+            color: #ffffff;
+        }
+        .cta-button {
+            color: #001747;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .signature {
+            color: #333333;
+        }
+        .footer {
+            color: #ffffff;
+            text-align: center;
+        }
+        .footer p {
+            color: #ffffff;
+            opacity: 0.9;
+        }
+        p {
+            color: #333333;
+            line-height: 1.8;
+        }
+        h2 {
+            color: #001747;
+            font-size: 1.8em;
+        }
+        .package-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .package {
+            padding: 25px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .package:hover {
+            transform: translateY(-5px);
+        }
+        
+        .package h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        
+        .package-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .package-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .package-price {
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 15px;
+            border: none !important;
+        }
+        
+        .contact-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .contact-card {
+            background: #ffffff;
             padding: 20px;
-            border-top: 2px solid #eee;
-        }}
-        .footer {{ 
-            text-align: center; 
-            padding: 20px; 
-            font-size: 12px; 
-            color: #666; 
-            background-color: #f8f9fa; 
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }}
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .contact-info {
+            text-align: center;
+        }
+        
+        .contact-info h3 {
+            color: #001747;
+            margin-bottom: 10px;
+        }
+        
+        .contact-info a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s ease;
+        }
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+        .feature-desc {
+            font-size: 0.9em;
+            color: #ffffff;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+        .feature-price {
+            font-size: 1.2em;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .contact-person {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            min-width: 200px;
+        }
+        
+        .contact-person strong {
+            color: #001747;
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .contact-person a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-person a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        .contact-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .contact-detail {
+            text-align: center;
+        }
+        
+        .contact-detail strong {
+            color: #001747;
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .contact-divider {
+            color: #001747;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+        
+        .contact-additional {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 6px;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .contact-item i {
+            font-size: 1.2em;
+            color: #001747;
+        }
+        
+        .contact-item a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-item a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Cricket Tournament Sponsorship</h1>
+            <h1 class="title">ATMIYA PREMIER LEAGUE</h1>
+            <div class="subtitle">SEASON 8</div>
         </div>
+
         <div class="content">
             <p>Dear {recipient_name},</p>
-            <p>{main_content}</p>
+            
+            <p>We invite you to be part of something extraordinary - the 8th season of Mumbai's most prestigious box cricket tournament that goes beyond just cricket. The Atmiya Premier League isn't just a tournament; it's a celebration of sport, values, and community spirit.</p>
 
-            <div class="tournament-details">
-                <h2>Tournament Details</h2>
-                <ul>
-                    <li>📅 Date: {tournament_date}</li>
-                    <li>📍 Venue: {tournament_venue}</li>
-                    <li>👥 Expected Teams: {num_teams}</li>
-                </ul>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Successful Seasons</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">955+</div>
+                    <div class="stat-label">Players Participated</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">73</div>
+                    <div class="stat-label">Teams Competed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">435</div>
+                    <div class="stat-label">Matches Played</div>
+                </div>
+            </div>
+
+            <div class="media-coverage">
+                <h2 class="media-title">Featured In Media</h2>
+                <div class="news-links">
+                    <a href="https://www.gujaratimidday.com/news/mumbai-news/photo/akshar-yuvak-mandal-dahisar-s-atmiya-premier-league-season-7-box-cricket-tournament-that-teaches-life-building-values-12799" target="_blank">
+                        <span class="icon">📰</span> Gujarat Midday: APL Season 7 - Building Life Values Through Cricket
+                    </a>
+                    <a href="https://www.gujaratimidday.com/news/mumbai-news/photo/dahisar-s-akshar-yuvak-mandal-s-atmiya-premier-league-season-6-was-all-about-game-bonding-and-atmiyata-11389" target="_blank">
+                        <span class="icon">📰</span> Gujarat Midday: APL Season 6 - Game, Bonding and Atmiyata
+                    </a>
+                </div>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/kCpj56DyObo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
             </div>
 
             <div class="sponsorship-packages">
-                <h2>Sponsorship Packages</h2>
-                <ul>
-                    <li><span class="package gold">Gold Sponsor: {gold_package}</span></li>
-                    <li><span class="package silver">Silver Sponsor: {silver_package}</span></li>
-                    <li><span class="package bronze">Bronze Sponsor: {bronze_package}</span></li>
-                </ul>
+                <h2>FOR SHARED SUCCESS</h2>
+                <div class="package-container">
+                    <div class="package">
+                        <ul class="package-features">
+                            <li class="feature-item">
+                                <span class="feature-name">All in one</span>
+                                <span class="feature-desc">(T-shirts + 4 Banner + 4 Standy + Marketing in all weekly assemblies)</span>
+                                <span class="feature-price">₹ 1,80,000</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Title Sponsorship</span>
+                                <span class="feature-price">₹ 1,25,000</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Title Sponsorship (500 T-shirts)</span>
+                                <span class="feature-price">₹ 350 (Min 100 Qty)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Brand Logo on both sleeve</span>
+                                <span class="feature-price">₹ 31,000 (Each side)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Banner (without frame size 7X3 OR 10x4)</span>
+                                <span class="feature-price">₹ 17,000</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Standy (size 6X3)</span>
+                                <span class="feature-price">₹ 12,000</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Cap</span>
+                                <span class="feature-price">₹ 30 (550 Qty)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Wrist Band</span>
+                                <span class="feature-price">₹ 20 (550 Qty)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Stall (Food, Soft drink or Art)</span>
+                                <span class="feature-price">₹ 5,000 to ₹ 10,000</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-name">Social Media Marketing</span>
+                                <span class="feature-desc">(For 10 days count down & we add 100 follower to your insta page. Min 100 person showcase Reels, status)</span>
+                                <span class="feature-price">₹ 21,000</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
+            <div class="contact-section">
+                <h2>Contact Us</h2>
+                <div class="contact-card">
+                    <div class="contact-info">
+                        <h3>For Sponsorship Enquiries</h3>
+                        <div class="contact-person">
+                            <div class="contact-row">
+                                <div class="contact-detail">
+                                    <strong>Apurva Patel</strong>
+                                    <a href="tel:+919867545450">+91 9867545450</a>
+                                </div>
+                                <div class="contact-divider">|</div>
+                                <div class="contact-detail">
+                                    <strong>Saurabh Bhimani</strong>
+                                    <a href="tel:+919967990912">+91 9967990912</a>
+                                </div>
+                            </div>
+                            <div class="contact-additional">
+                                <div class="contact-item">
+                                    <i class="icon">📧</i>
+                                    <a href="mailto:aplboxcricket@gmail.com">aplboxcricket@gmail.com</a>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="icon">🌐</i>
+                                    <a href="http://www.aplcricbuzz.in" target="_blank">www.aplcricbuzz.in</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <center>
+                <a href="#" class="cta-button">Become a Sponsor Today</a>
+            </center>
 
             <div class="signature">
                 <p>Best Regards,<br>
@@ -132,8 +573,10 @@
                 {contact_info}</p>
             </div>
         </div>
+
         <div class="footer">
-            <p>{footer_text}</p>
+            <img src="https://i.imgur.com/xPhIXLu.png" alt="Atmiya Premier League" class="footer-logo">
+            <div class="tagline">"Join us in creating not just a tournament, but a legacy of values and sportsmanship"</div>
         </div>
     </div>
 </body>

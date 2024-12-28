@@ -1,4 +1,3 @@
-Shreedhar Barot, [24/12/24 7:20 PM]
 import pandas as pd
 import smtplib
 import os
@@ -7,6 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.base import MIMEBase
 from email import encoders
+from email.mime.image import MIMEImage
 
 # SMTP server configuration
 smtp_server = 'smtp.gmail.com'
@@ -60,6 +60,19 @@ def attach_file(msg, filepath):
         print(f"Error attaching file {filepath}: {str(e)}")
         return False
 
+def attach_inline_image(msg, image_path, content_id):
+    """Attach an inline image with content ID for HTML reference"""
+    try:
+        with open(image_path, 'rb') as f:
+            mime_image = MIMEImage(f.read())
+            mime_image.add_header('Content-ID', f'<{content_id}>')
+            mime_image.add_header('Content-Disposition', 'inline')
+            msg.attach(mime_image)
+            return True
+    except Exception as e:
+        print(f"Error attaching inline image {image_path}: {str(e)}")
+        return False
+
 try:
     # Read the email template
     template = read_template('templates/email_template.html')
@@ -90,17 +103,24 @@ try:
         for _, row in df.iterrows():
             try:
                 # Create message container
-                msg = MIMEMultipart('alternative')
+                msg = MIMEMultipart('related')  # Change from 'alternative' to 'related'
                 msg['Subject'] = row['Subject']
                 msg['From'] = smtp_user
                 msg['To'] = row['Email']
                 
+                # Create the HTML part
+                html_part = MIMEMultipart('alternative')
+                msg.attach(html_part)
+                
                 # Fill template with row data
-                template_data = row.to_dict()  # Convert row to dictionary
+                template_data = row.to_dict()
                 html_content = fill_template(template, **template_data)
                 
                 # Attach HTML content
-                msg.attach(MIMEText(html_content, 'html'))
+                html_part.attach(MIMEText(html_content, 'html'))
+                
+                # Attach the logo image
+                attach_inline_image(msg, 'logo.png', 'logo')
                 
                 # Add attachments if specified
                 if 'Attachments' in row and pd.notna(row['Attachments']):
@@ -111,7 +131,7 @@ try:
                         else:
                             print(f"Warning: Attachment not found: {filepath}")
 
-server.sendmail(smtp_user, row['Email'], msg.as_string())
+                server.sendmail(smtp_user, row['Email'], msg.as_string())
                 print(f"Email sent to: {row['Email']}")
             
             except Exception as e:
