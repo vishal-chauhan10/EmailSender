@@ -1,8 +1,2 @@
-﻿Email,Subject,Body,Attachments
-61chauhan.vishal@gmail.com,Sponsorship Opportunity for Our Cricket Tournament,"Dear Businessman,
-
-We are excited to invite you to sponsor our upcoming cricket tournament. Your support would mean a lot to us!
-
-Best Regards,
-[Your Name]
-[Your Contact Information]",/path/to/attachment1.pdf;/path/to/attachment2.docx
+﻿Email,Subject,recipient_name,sender_name,sender_position,contact_info
+61chauhan.vishal@gmail.com,APL Season 8 - Sponsorship Opportunity,Vishal Chauhan,Apurva Patel,Tournament Director,+91 9867545450
