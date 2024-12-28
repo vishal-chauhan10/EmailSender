@@ -4,20 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {{ 
+        body {{
             font-family: Arial, Helvetica, sans-serif;
-            line-height: 1.6; 
-            color: #333; 
+            line-height: 1.6;
+            color: #333;
             background: linear-gradient(135deg, #001747 0%, #002a7a 100%);
-            margin: 0; 
-            padding: 20px; 
+            margin: 0;
+            padding: 20px;
         }}
-        .container {{ 
-            max-width: 600px; 
-            margin: 0 auto; 
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }}
         .header {{ 
@@ -142,227 +142,227 @@
             padding-bottom: 10px;
             margin-bottom: 20px;
         }}
-        ul {{ 
+        ul {
             list-style: none;
             padding: 0;
-        }}
-        .title {{ 
+        }
+        .title {
             font-size: 2.8em;
             font-weight: 800;
             color: #ffd700;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             margin: 0;
             letter-spacing: 2px;
-        }}
-        .subtitle {{ 
+        }
+        .subtitle {
             font-size: 1.4em;
             color: #ffffff;
             margin-top: 10px;
             letter-spacing: 1px;
-        }}
-        .stat-number {{
+        }
+        .stat-number {
             font-size: 2.2em;
             font-weight: bold;
             color: #ffd700;
             margin: 5px 0;
-        }}
-        .stat-label {{
+        }
+        .stat-label {
             color: #ffffff;
             font-size: 0.9em;
-        }}
-        .media-title {{
+        }
+        .media-title {
             color: #001747;
             font-size: 1.5em;
             font-weight: bold;
             text-align: center;
-        }}
-        .news-links a {{
+        }
+        .news-links a {
             color: #001747;
             text-decoration: none;
             display: block;
-        }}
-        .package {{
+        }
+        .package {
             color: #001747;
             font-weight: bold;
             text-align: center;
-        }}
-        .gold {{
+        }
+        .gold {
             color: #000000;
-        }}
-        .silver {{
+        }
+        .silver {
             color: #000000;
-        }}
-        .bronze {{
+        }
+        .bronze {
             color: #ffffff;
-        }}
-        .cta-button {{
+        }
+        .cta-button {
             color: #001747;
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-        }}
-        .signature {{
+        }
+        .signature {
             color: #333333;
-        }}
-        .footer {{
+        }
+        .footer {
             color: #ffffff;
             text-align: center;
-        }}
-        .footer p {{
+        }
+        .footer p {
             color: #ffffff;
             opacity: 0.9;
-        }}
-        p {{
+        }
+        p {
             color: #333333;
             line-height: 1.8;
-        }}
-        h2 {{
+        }
+        h2 {
             color: #001747;
             font-size: 1.8em;
-        }}
-        .package-container {{
+        }
+        .package-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
-        }}
+        }
         
-        .package {{
+        .package {
             padding: 25px;
             border-radius: 10px;
             transition: transform 0.3s ease;
-        }}
+        }
         
-        .package:hover {{
+        .package:hover {
             transform: translateY(-5px);
-        }}
+        }
         
-        .package h3 {{
+        .package h3 {
             margin: 0 0 15px 0;
             font-size: 1.5em;
             text-align: center;
-        }}
+        }
         
-        .package-features {{
+        .package-features {
             list-style: none;
             padding: 0;
             margin: 0;
-        }}
+        }
         
-        .package-features li {{
+        .package-features li {
             padding: 8px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }}
+        }
         
-        .package-price {{
+        .package-price {
             text-align: center;
             font-size: 1.3em;
             font-weight: bold;
             margin-top: 15px;
             border: none !important;
-        }}
+        }
         
-        .contact-section {{
+        .contact-section {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             padding: 25px;
             border-radius: 12px;
             margin: 30px 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }}
+        }
         
-        .contact-card {{
+        .contact-card {
             background: #ffffff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }}
+        }
         
-        .contact-info {{
+        .contact-info {
             text-align: center;
-        }}
+        }
         
-        .contact-info h3 {{
+        .contact-info h3 {
             color: #001747;
             margin-bottom: 10px;
-        }}
+        }
         
-        .contact-info a {{
+        .contact-info a {
             color: #007bff;
             text-decoration: none;
             font-size: 1.2em;
             font-weight: bold;
-        }}
+        }
         
-        .contact-info a:hover {{
+        .contact-info a:hover {
             text-decoration: underline;
-        }}
-        .feature-item {{
+        }
+        .feature-item {
             display: flex;
             flex-direction: column;
             padding: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             transition: background-color 0.3s ease;
-        }}
-        .feature-item:hover {{
+        }
+        .feature-item:hover {
             background: rgba(255, 255, 255, 0.05);
-        }}
-        .feature-item:last-child {{
+        }
+        .feature-item:last-child {
             border-bottom: none;
-        }}
-        .feature-name {{
+        }
+        .feature-name {
             font-size: 1.1em;
             font-weight: bold;
             color: #ffd700;
             margin-bottom: 5px;
-        }}
-        .feature-desc {{
+        }
+        .feature-desc {
             font-size: 0.9em;
             color: #ffffff;
             opacity: 0.8;
             margin-bottom: 8px;
-        }}
-        .feature-price {{
+        }
+        .feature-price {
             font-size: 1.2em;
             color: #ffffff;
             font-weight: bold;
-        }}
-        .contact-grid {{
+        }
+        .contact-grid {
             display: flex;
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
             margin-top: 15px;
-        }}
+        }
         
-        .contact-person {{
+        .contact-person {
             text-align: center;
             padding: 15px;
             background: linear-gradient(145deg, #f8f9fa, #ffffff);
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             min-width: 200px;
-        }}
+        }
         
-        .contact-person strong {{
+        .contact-person strong {
             color: #001747;
             font-size: 1.1em;
             display: block;
             margin-bottom: 5px;
-        }}
+        }
         
-        .contact-person a {{
+        .contact-person a {
             color: #007bff;
             text-decoration: none;
             font-size: 1.1em;
             font-weight: bold;
             transition: color 0.3s ease;
-        }}
+        }
         
-        .contact-person a:hover {{
+        .contact-person a:hover {
             color: #0056b3;
             text-decoration: underline;
-        }}
-        .contact-row {{  
+        }
+        .contact-row {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -372,33 +372,33 @@
             background: linear-gradient(145deg, #f8f9fa, #ffffff);
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }}
+        }
         
-        .contact-detail {{
+        .contact-detail {
             text-align: center;
-        }}
+        }
         
-        .contact-detail strong {{
+        .contact-detail strong {
             color: #001747;
             font-size: 1.1em;
             display: block;
             margin-bottom: 5px;
-        }}
+        }
         
-        .contact-divider {{
+        .contact-divider {
             color: #001747;
             font-size: 1.5em;
             opacity: 0.3;
-        }}
+        }
         
-        .contact-additional {{
+        .contact-additional {
             display: flex;
             flex-direction: column;
             gap: 10px;
             margin-top: 15px;
-        }}
+        }
         
-        .contact-item {{
+        .contact-item {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -407,28 +407,28 @@
             background: linear-gradient(145deg, #ffffff, #f8f9fa);
             border-radius: 6px;
             transition: transform 0.3s ease;
-        }}
+        }
         
-        .contact-item:hover {{
+        .contact-item:hover {
             transform: translateY(-2px);
-        }}
+        }
         
-        .contact-item i {{
+        .contact-item i {
             font-size: 1.2em;
             color: #001747;
-        }}
+        }
         
-        .contact-item a {{
+        .contact-item a {
             color: #007bff;
             text-decoration: none;
             font-weight: bold;
             transition: color 0.3s ease;
-        }}
+        }
         
-        .contact-item a:hover {{
+        .contact-item a:hover {
             color: #0056b3;
             text-decoration: underline;
-        }}
+        }
     </style>
 </head>
 <body>
