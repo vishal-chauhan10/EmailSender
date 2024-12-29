@@ -1,12 +1,12 @@
 import pandas as pd
 import smtplib
-import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.base import MIMEBase
 from email import encoders
 from email.mime.image import MIMEImage
+import os
 
 # SMTP server configuration
 smtp_server = 'smtp.gmail.com'
@@ -17,23 +17,12 @@ smtp_password = 'ntvu skod dibv cabm'
 def read_template(template_path):
     """Read the template file"""
     with open(template_path, 'r', encoding='utf-8') as file:
-        return file.read().strip()  # Add strip() to remove extra whitespace
+        return file.read().strip()
 
 def fill_template(template, **kwargs):
     """Fill the template with provided values"""
     try:
-        # Default values
-        defaults = {
-            'title': 'Cricket Tournament Sponsorship',
-            'main_content': 'We are excited to invite you to sponsor our upcoming cricket tournament. Your support would mean a lot to us!',
-            'footer_text': '© 2024 Cricket Tournament. All rights reserved.',
-        }
-        
-        # Update defaults with provided values
-        defaults.update(kwargs)
-        
-        # Fill template
-        return template.format(**defaults)
+        return template.format(**kwargs)
     except KeyError as e:
         print(f"Missing template variable: {e}")
         raise
@@ -41,104 +30,83 @@ def fill_template(template, **kwargs):
         print(f"Error filling template: {e}")
         raise
 
-def attach_file(msg, filepath):
-    """Attach a file to the email message"""
+def send_emails(csv_file):
     try:
-        with open(filepath, 'rb') as f:
-            file_name = os.path.basename(filepath)
-            part = MIMEBase('application', "octet-stream")
-            part.set_payload(f.read())
-            encoders.encode_base64(part)
-            part.add_header(
-                'Content-Disposition',
-                'attachment',
-                filename=file_name
-            )
-            msg.attach(part)
-            return True
-    except Exception as e:
-        print(f"Error attaching file {filepath}: {str(e)}")
-        return False
-
-def attach_inline_image(msg, image_path, content_id):
-    """Attach an inline image with content ID for HTML reference"""
-    try:
-        with open(image_path, 'rb') as f:
-            mime_image = MIMEImage(f.read())
-            mime_image.add_header('Content-ID', f'<{content_id}>')
-            mime_image.add_header('Content-Disposition', 'inline')
-            msg.attach(mime_image)
-            return True
-    except Exception as e:
-        print(f"Error attaching inline image {image_path}: {str(e)}")
-        return False
-
-try:
-    # Read the email template
-    template = read_template('templates/email_template.html')
-    
-    # Read CSV file
-    df = pd.read_csv('emails.csv')
-    print("\nCSV file contents:")
-    print(df.head())
-    print("\nColumns in DataFrame:", list(df.columns))  # Add this line for debugging
-    
-    # Verify required columns exist
-    required_columns = ['Email', 'Subject']
-    if not all(col in df.columns for col in required_columns):
-        raise Exception(f"CSV must contain these columns: {required_columns}")
-    
-    # Clean the email addresses
-    df['Email'] = df['Email'].astype(str).str.strip()
-    df = df[df['Email'].str.contains('@')]
-    
-    if len(df) == 0:
-        raise Exception("No valid email addresses found in the file")
-    
-    # Send emails
-    with smtplib.SMTP(smtp_server, smtp_port) as server:
-        server.starttls()
-        server.login(smtp_user, smtp_password)
+        # Read the email template
+        template = read_template('templates/email_template.html')
         
-        for _, row in df.iterrows():
-            try:
-                # Create message container
-                msg = MIMEMultipart('related')  # Change from 'alternative' to 'related'
-                msg['Subject'] = row['Subject']
-                msg['From'] = smtp_user
-                msg['To'] = row['Email']
-                
-                # Create the HTML part
-                html_part = MIMEMultipart('alternative')
-                msg.attach(html_part)
-                
-                # Fill template with row data
-                template_data = row.to_dict()
-                html_content = fill_template(template, **template_data)
-                
-                # Attach HTML content
-                html_part.attach(MIMEText(html_content, 'html'))
-                
-                # Attach the logo image
-                attach_inline_image(msg, 'logo.png', 'logo')
-                
-                # Add attachments if specified
-                if 'Attachments' in row and pd.notna(row['Attachments']):
-                    for filepath in row['Attachments'].split(';'):
-                        filepath = filepath.strip()
-                        if os.path.exists(filepath):
-                            attach_file(msg, filepath)
-                        else:
-                            print(f"Warning: Attachment not found: {filepath}")
+        # Read CSV file
+        df = pd.read_csv(csv_file)
+        print(f"Processing {len(df)} recipients...")
 
-                server.sendmail(smtp_user, row['Email'], msg.as_string())
-                print(f"Email sent to: {row['Email']}")
+        # Verify required columns exist
+        required_columns = ['Email', 'Subject']
+        if not all(col in df.columns for col in required_columns):
+            raise Exception(f"CSV must contain these columns: {required_columns}")
+        
+        # Clean the email addresses
+        df['Email'] = df['Email'].astype(str).str.strip()
+        df = df[df['Email'].str.contains('@')]
+        
+        if len(df) == 0:
+            raise Exception("No valid email addresses found in the file")
+        
+        # Send emails
+        successful_sends = 0
+        failed_sends = 0
+        
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_user, smtp_password)
             
-            except Exception as e:
-                print(f"Error sending email to {row['Email']}: {str(e)}")
-                continue
+            for _, row in df.iterrows():
+                try:
+                    # Create message container
+                    msg = MIMEMultipart('related')
+                    msg['Subject'] = row['Subject']
+                    msg['From'] = smtp_user
+                    msg['To'] = row['Email']
+                    
+                    # Create the HTML part
+                    html_part = MIMEMultipart('alternative')
+                    msg.attach(html_part)
+                    
+                    # Fill template with row data
+                    template_data = row.to_dict()
+                    html_content = fill_template(template, **template_data)
+                    
+                    # Attach HTML content
+                    html_part.attach(MIMEText(html_content, 'html'))
+                    
+                    # Send the email
+                    server.sendmail(smtp_user, row['Email'], msg.as_string())
+                    print(f"✓ Email sent to: {row['Email']}")
+                    successful_sends += 1
+                
+                except Exception as e:
+                    print(f"✗ Error sending email to {row['Email']}: {str(e)}")
+                    failed_sends += 1
+                    continue
             
-        print("All emails have been sent.")
+        print(f"\nEmail sending completed:")
+        print(f"✓ Successful: {successful_sends}")
+        print(f"✗ Failed: {failed_sends}")
+        print(f"Total: {successful_sends + failed_sends}")
+        
+        return {
+            'success': True,
+            'message': f'Emails sent successfully ({successful_sends} sent, {failed_sends} failed)',
+            'details': {
+                'successful': successful_sends,
+                'failed': failed_sends,
+                'total': successful_sends + failed_sends
+            }
+        }
 
-except Exception as e:
-    print(f"An error occurred: {str(e)}")
+    except Exception as e:
+        error_message = f"Error sending emails: {str(e)}"
+        print(error_message)
+        return {
+            'success': False,
+            'message': error_message
+        }
