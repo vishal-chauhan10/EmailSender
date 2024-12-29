@@ -1,0 +1,15 @@
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+}
+
+.table {
+    margin-bottom: 1rem;
+}
+
+.alert {
+    margin-bottom: 1rem;
+} 
